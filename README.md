@@ -31,6 +31,6 @@ Welcome to the Dino Game for EdgeTX! This project brings the classic Dino game t
    - On your EdgeTX radio, navigate to the `Scripts` menu.
    - Select the `Dino Game` script to start playing.
 
-## License
+# License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This Game is distributed under the GNU [General Public License version 3.0](https://www.gnu.org/licenses/gpl-3.0.html).
