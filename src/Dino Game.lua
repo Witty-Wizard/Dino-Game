@@ -4,7 +4,7 @@ local pos = 0
 local walk = true
 local lastTriggerTimeWalk = 0
 local lastTriggerTime = 0
-local delay = 100s
+local delay = 100
 local delayWalk = 300
 local over = false
 
