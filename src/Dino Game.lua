@@ -2,40 +2,26 @@ local jump = false
 local duck = true
 local pos = 0
 local walk = true
-local lastTriggerTime = 0 -- Variable to store the last trigger time
-local delay = 20          -- Delay in milliseconds (2 seconds)
+local lastTriggerTimeWalk = 0
+local lastTriggerTime = 0
+local delay = 10
+local delayWalk = 300
+local over = false
 
-local function displayCactus1(xCord)
-    lcd.drawPixmap(xCord + 0, LCD_H - 35, "gfx/cactus_1_1.bmp")
-    lcd.drawPixmap(xCord + 45, LCD_H - 35, "gfx/cactus_1_2.bmp")
+local function displayCactus()
+    lcd.drawPixmap(pos, LCD_H - 22, "gfx/cactus.bmp")
 end
 
-local function displayCactus2(xCord)
-    lcd.drawPixmap(xCord + 0, LCD_H - 35, "gfx/cactus_2_1.bmp")
-    lcd.drawPixmap(xCord + 45, LCD_H - 35, "gfx/cactus_2_2.bmp")
-end
-
-local function displayCactus3(xCord)
-    lcd.drawPixmap(xCord + 0, LCD_H - 35, "gfx/cactus_3_1.bmp")
-    lcd.drawPixmap(xCord + 45, LCD_H - 35, "gfx/cactus_3_2.bmp")
-end
-
-local function displayGround0(xCord)
-    lcd.drawPixmap(xCord + 0, LCD_H - 35, "gfx/ground_0_1.bmp")
-    lcd.drawPixmap(xCord + 45, LCD_H - 35, "gfx/ground_0_2.bmp")
-end
-
-local function displayGround1(xCord)
-    lcd.drawPixmap(xCord + 0, LCD_H - 35, "gfx/ground_1_1.bmp")
-    lcd.drawPixmap(xCord + 45, LCD_H - 35, "gfx/ground_1_2.bmp")
+local function displayRIP()
+    lcd.drawPixmap(5, LCD_H - 35, "gfx/dino_gameover.bmp")
 end
 
 local function displayDino()
     if duck then
         if walk then
-            lcd.drawPixmap(5, LCD_H - 23, "gfx/dino_ducking_leftstep.bmp")
+            lcd.drawPixmap(5, LCD_H - 22, "gfx/dino_ducking_leftstep.bmp")
         else
-            lcd.drawPixmap(5, LCD_H - 23, "gfx/dino_ducking_rightstep.bmp")
+            lcd.drawPixmap(5, LCD_H - 22, "gfx/dino_ducking_rightstep.bmp")
         end
     elseif jump then
         if walk then
@@ -45,9 +31,9 @@ local function displayDino()
         end
     else
         if walk then
-            lcd.drawPixmap(5, LCD_H - 36, "gfx/dino_leftstep.bmp")
+            lcd.drawPixmap(5, LCD_H - 35, "gfx/dino_leftstep.bmp")
         else
-            lcd.drawPixmap(5, LCD_H - 36, "gfx/dino_rightstep.bmp")
+            lcd.drawPixmap(5, LCD_H - 35, "gfx/dino_rightstep.bmp")
         end
     end
 end
@@ -55,22 +41,13 @@ end
 local function init()
     -- Initialization code if any
     lastTriggerTime = getTime() -- Record the initial time
+    lastTriggerTimeWalk = getTime()
 end
 
 -- Main function
 local function run(event)
     if event == EVT_EXIT_BREAK then
         return 1
-    end
-
-
-
-    lcd.clear()
-    local currentTime = getTime()
-    if (currentTime - lastTriggerTime) >= (delay / 10) then
-        pos = pos - 1
-        lastTriggerTime = currentTime
-        walk = not walk
     end
 
     local triggerValue = getSourceValue(1)
@@ -86,14 +63,36 @@ local function run(event)
         duck = false
     end
 
-    -- if jump then
-    --     lcd.drawPixmap(5,LCD_H-25, "gfx/dino_default.bmp")
-    -- elseif duck then
-    --     lcd.drawPixmap(5,LCD_H-12, "gfx/dino_ducking_leftstep.bmp")
-    -- else
-    --     lcd.drawPixmap(5,LCD_H-18, "gfx/dino_default.bmp")
-    -- end
-    displayDino()
+    lcd.clear()
+
+    if not over then
+        local currentTime = getTime()
+        if (currentTime - lastTriggerTime) >= (delay / 10) then
+            pos = pos - 3
+            if (pos <= 0) then
+                pos = LCD_W - 14
+            end
+            lastTriggerTime = currentTime
+        end
+        if (currentTime - lastTriggerTimeWalk) >= (delayWalk / 10) then
+            walk = not walk
+            lastTriggerTimeWalk = currentTime
+        end
+
+        if pos <= 32 and not jump then
+            over = true
+        end
+
+        displayDino()
+        displayCactus()
+    else
+        displayRIP()
+        displayCactus()
+        if jump or duck then
+            over = false
+            pos = LCD_W - 14
+        end
+    end
 
 
 
