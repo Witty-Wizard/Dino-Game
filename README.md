@@ -2,7 +2,9 @@
     <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Witty-Wizard/Dino-Game">
     <img alt="GitHub forks" src="https://img.shields.io/github/forks/Witty-Wizard/Dino-Game?style=flat&logo=github">
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Witty-Wizard/Dino-Game?style=flat&logo=github">
+    <a href="https://github.com/Witty-Wizard/Dino-Game/actions/workflows/linter.yaml"><img src="https://github.com/Witty-Wizard/Dino-Game/actions/workflows/linter.yaml/badge.svg"></a>
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/github/license/Witty-Wizard/Dino-Game" alt="GitHub License"></a>
+    <a href="https://gitpod.io/#https://github.com/Witty-Wizard/Dino-Game"><img src="https://img.shields.io/badge/Gitpod-ready--to--code-blue?style=flat&logo=gitpod" alt="Gitpod"></a>
 </p>
 
 # Dino Game for EdgeTX Radio
