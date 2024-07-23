@@ -1,0 +1,26 @@
+name: Lua Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lua-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Lua
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lua5.3 lua5.3-dev luarocks
+
+    - name: Install luacheck
+      run: luarocks install luacheck
+
+    - name: Run luacheck
+      run: luacheck ./src/. --config .luacheckrc
